@@ -67,4 +67,10 @@ class UserController extends Controller
         $userall = User::all();
         return response()->json($userall, 200);
     }
+
+    public function user_info($id){
+        $user = User::where('id',$id)->first();
+        return response()->json($user, 200);
+    }
+    
 }

@@ -109,7 +109,7 @@ class BukuControrller extends Controller
             $extension = $request->input('extension');
             $fullFilename = $filename;
     
-            $upload = Storage::disk('public')->put($fullFilename, $media);
+            $upload = Storage::disk('public')->put('/uploads/'.$fullFilename, $media);
     
             if ($upload) {
                 return response()->json(['success' => 'Cover uploaded successfully'], 200);

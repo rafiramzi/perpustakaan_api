@@ -17,7 +17,7 @@ class rental extends Model
         'rental_date',
         'rental_deadline',
         'qty',
-        'condition',
+        'condition_role',
         'status',
         'alamat',
         'denda'

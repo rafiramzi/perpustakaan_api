@@ -7,6 +7,8 @@ use App\Models\favorit;
 use App\Models\ratings;
 use App\Models\rental;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class BukuControrller extends Controller
 {
@@ -82,7 +84,8 @@ class BukuControrller extends Controller
             'rental_date' => $rental_date,
             'rental_deadline' => $rental_deadline,
             'qty' => $qty,
-            'condition' => 0,
+            'condition_role' => 0,
+            'denda' => 0,
             'status' => 0,
             'alamat' => $alamat,
         ]);
@@ -94,6 +97,31 @@ class BukuControrller extends Controller
         }
     }
 
+    function upload_file(Request $request){
+        try {
+            $media = base64_decode($request->input('media'));
+            if ($media === false) {
+                Log::error('Base64 decode failed');
+                return response()->json(['error' => 'Invalid base64 string'], 400);
+            }
+    
+            $filename = $request->input('filename');
+            $extension = $request->input('extension');
+            $fullFilename = $filename;
+    
+            $upload = Storage::disk('public')->put($fullFilename, $media);
+    
+            if ($upload) {
+                return response()->json(['success' => 'Cover uploaded successfully'], 200);
+            } else {
+                Log::error('Storage put failed');
+                return response()->json(['error' => 'Failed to upload'], 401);
+            }
+        } catch (\Exception $e) {
+            Log::error('Upload file exception: ' . $e->getMessage());
+            return response()->json(['error' => 'Server error'], 500);
+        }
+    }
     function fav_user($id, $buku){
         $user_id = $id;
         $buku_id = $buku;

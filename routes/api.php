@@ -49,5 +49,7 @@ Route::post('/fav/user/{id}/{buku}', [BukuControrller::class, 'fav_user']);
 Route::get('/fav/user/{id}/{buku}', [BukuControrller::class, 'fav_user']);
 
 
+//Admin
+Route::post('media/upload/auth', [BukuControrller::class, 'upload_file']);
 
 

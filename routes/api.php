@@ -26,7 +26,12 @@ Route::get('/user/{id}/info', [UserController::class, 'user_info']);
 // Buku
 Route::get('/buku/all', [BukuControrller::class, 'buku_all']);
 
+Route::get('/buku/popular', [BukuControrller::class, 'buku_popular']);
+
 Route::get('/buku/{id}/info', [BukuControrller::class, 'buku_info']);
+
+Route::get('/penulis/buku/{buku_id}', [BukuControrller::class, 'penulis_info']);
+
 
 
 // Ratings

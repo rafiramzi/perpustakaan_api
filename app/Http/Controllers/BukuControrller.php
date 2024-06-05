@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Buku;
 use App\Models\favorit;
+use App\Models\Penulis;
+use App\Models\penulis_buku;
 use App\Models\ratings;
 use App\Models\rental;
 use Carbon\Carbon;
@@ -31,6 +33,14 @@ class BukuControrller extends Controller
         }
     }
 
+    public function buku_popular(){
+        $buku = Buku::where('avg_ratings', '>', '4')->get();
+        if($buku){
+            return response()->json($buku, 200);
+        }else{
+            return response()->json(['Error' => 'gak konek lekkk']);
+        }
+    }
     function ratings_all(){
         $rating = ratings::all();
         if($rating){
@@ -166,6 +176,22 @@ class BukuControrller extends Controller
             return response()->json($response, 200);
         } else {
             return response()->json(['error' => 'Gagal'], 401);
+        }
+    }
+
+    public function penulis_info($buku_id){
+        $pivot = penulis_buku::where('buku_id',$buku_id)->get();
+
+        $penulis = [];
+
+        foreach($pivot as $pvt){
+        $penulis = Penulis::where('id', $pvt->penulis_id)->get();
+        }
+
+        if($penulis){
+            return response()->json($penulis, 200);
+        }else{
+            return response()->json(['Error' => 'Gagal melihat penulis'], 401);
         }
     }
     

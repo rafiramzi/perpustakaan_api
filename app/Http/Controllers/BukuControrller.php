@@ -6,6 +6,7 @@ use App\Models\Buku;
 use App\Models\favorit;
 use App\Models\ratings;
 use App\Models\rental;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -73,10 +74,17 @@ class BukuControrller extends Controller
     function rental_req(Request $request){
         $user_id = $request->user_id;
         $book_id = $request->book_id;
-        $rental_date = $request->rental_date;
-        $rental_deadline = $request->rental_deadline;
+        $rental_date = Carbon::parse($request->rental_date);
+        $rental_deadline = $rental_date->copy()->addDays(5);
         $qty = $request->qty;
         $alamat = $request->alamat;
+
+        $buku = Buku::where('id',$book_id)->first();
+        $final_qty = $buku->qty - $qty;
+
+        Buku::where('id',$book_id)->update([
+            'qty' => $final_qty
+        ]);
 
         $rental = rental::create([
             'user_id' => $user_id,

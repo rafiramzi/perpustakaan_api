@@ -19,6 +19,10 @@ Route::get('/login/auth', [UserController::class, 'login']);
 
 Route::get('/user/all', [UserController::class, 'user']);
 
+Route::get('/user_rel/all', [UserController::class, 'user_rel']);
+
+Route::get('/table_mst/{id}/all', [UserController::class, 'table_get']);
+
 Route::get('/user/{id}/info', [UserController::class, 'user_info']);
 
 

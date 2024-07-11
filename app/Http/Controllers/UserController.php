@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\TableMst;
 use App\Models\User;
+use App\Models\UserRel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -71,6 +73,16 @@ class UserController extends Controller
     public function user_info($id){
         $user = User::where('id',$id)->first();
         return response()->json($user, 200);
+    }
+
+    public function user_rel(){
+        $user = UserRel::all();
+        return response()->json($user, 200);
+    }
+
+    public function table_get($id){
+        $table = TableMst::where('id', $id)->get();
+        return response()->json($table, 200);
     }
     
 }
